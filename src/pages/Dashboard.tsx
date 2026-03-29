@@ -25,12 +25,12 @@ const Dashboard = () => {
   }, [user]);
 
   const fetchProfile = async () => {
-    const { data } = await supabase.from("profiles").select("*").eq("id", user!.id).single();
+    const { data } = await (supabase as any).from("profiles").select("*").eq("id", user!.id).single();
     if (data) setProfile(data);
   };
 
   const fetchBookings = async () => {
-    const { data } = await supabase
+    const { data } = await (supabase as any)
       .from("bookings")
       .select(`*, mentor:mentor_profiles(id, headline, profile:profiles!mentor_profiles_user_id_fkey(full_name, avatar_url))`)
       .eq("user_id", user!.id)

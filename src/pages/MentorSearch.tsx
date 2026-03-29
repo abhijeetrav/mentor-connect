@@ -47,13 +47,13 @@ const MentorSearch = () => {
   }, []);
 
   const fetchCategories = async () => {
-    const { data } = await supabase.from("categories").select("id, name");
+    const { data } = await (supabase as any).from("categories").select("id, name");
     if (data) setCategories(data);
   };
 
   const fetchMentors = async () => {
     setLoading(true);
-    const { data: mentorData } = await supabase
+    const { data: mentorData } = await (supabase as any)
       .from("mentor_profiles")
       .select(`
         *,

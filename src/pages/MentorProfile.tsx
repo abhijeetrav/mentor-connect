@@ -30,7 +30,7 @@ const MentorProfile = () => {
   }, [id]);
 
   const fetchMentor = async () => {
-    const { data } = await supabase
+    const { data } = await (supabase as any)
       .from("mentor_profiles")
       .select(`*, profile:profiles!mentor_profiles_user_id_fkey(full_name, avatar_url, bio, phone), mentor_categories(category:categories(name))`)
       .eq("id", id)
@@ -40,7 +40,7 @@ const MentorProfile = () => {
   };
 
   const fetchReviews = async () => {
-    const { data } = await supabase
+    const { data } = await (supabase as any)
       .from("reviews")
       .select(`*, reviewer:profiles!reviews_user_id_fkey(full_name, avatar_url)`)
       .eq("mentor_id", id)
@@ -49,7 +49,7 @@ const MentorProfile = () => {
   };
 
   const fetchPortfolio = async () => {
-    const { data } = await supabase.from("portfolio_items").select("*").eq("mentor_id", id);
+    const { data } = await (supabase as any).from("portfolio_items").select("*").eq("mentor_id", id);
     if (data) setPortfolio(data);
   };
 
@@ -59,7 +59,7 @@ const MentorProfile = () => {
       return;
     }
     const amount = bookingPlan === "hourly" ? mentor.hourly_rate : bookingPlan === "weekly" ? mentor.weekly_rate : mentor.monthly_rate;
-    const { error } = await supabase.from("bookings").insert({
+    const { error } = await (supabase as any).from("bookings").insert({
       user_id: user.id,
       mentor_id: mentor.id,
       plan: bookingPlan,
